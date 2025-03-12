@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)  
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(BASE_DIR, "../excel")
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "server/excel")
 ALLOWED_EXTENSIONS = {'xlsx', 'xls', 'xlsm', 'csv'}
 
 def allowed_file(filename):
@@ -61,7 +61,7 @@ def processar():
     
 @app.route('/download', methods=['GET'])
 def download_file():
-    caminho_saida = os.path.join(BASE_DIR, "../excel/FD_Preenchido.xlsm")
+    caminho_saida = os.path.join(BASE_DIR, "server/excel/FD_Preenchido.xlsm")
 
     if os.path.exists(caminho_saida):
         return send_file(caminho_saida, as_attachment=True)

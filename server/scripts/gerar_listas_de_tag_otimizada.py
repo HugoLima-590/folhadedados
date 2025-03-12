@@ -35,6 +35,6 @@ def processar_excel(caminho_arquivo, tag_instrumento):
 
     df_filtrado = df_filtrado.drop_duplicates(ignore_index=True).reset_index(drop=True)
     df_filtrado = df_filtrado.sort_values(by="Nº Instrumento", ascending=True)
-    df_filtrado.to_excel(r"../excel/tags_filtradas.xlsx", index=False, engine="openpyxl")
+    df_filtrado.to_excel(r"server/excel/tags_filtradas.xlsx", index=False, engine="openpyxl")
     
     return df.to_dict(orient="records")

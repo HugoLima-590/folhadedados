@@ -4,9 +4,9 @@ from openpyxl import load_workbook
 def exportar_fd(): 
 
     # Caminhos dos arquivos
-    caminho_template = r"..\excel\Válvulas On-Off copia.xlsm"
-    caminho_tags = r"..\excel\tags_filtradas.xlsx"
-    caminho_saida = r"..\excel\FD_Preenchido.xlsm"
+    caminho_template = r"server\excel\Válvulas On-Off copia.xlsm"
+    caminho_tags = r"server\excel\tags_filtradas.xlsx"
+    caminho_saida = r"server\excel\FD_Preenchido.xlsm"
 
 
     wb_template = load_workbook(
