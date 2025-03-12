@@ -3,8 +3,8 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import time
-from gerar_listas_de_tag_otimizada import processar_excel
-from alimentar_fd import exportar_fd
+from server.scripts.gerar_listas_de_tag_otimizada import processar_excel
+from server.scripts.alimentar_fd import exportar_fd
 
 app = Flask(__name__)
 CORS(app)  
