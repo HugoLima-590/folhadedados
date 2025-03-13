@@ -1,20 +1,19 @@
+import os
 import pandas as pd
 from openpyxl import load_workbook
 
 def exportar_fd(): 
 
-    # Caminhos dos arquivos
-    caminho_template = r"server\excel\Válvulas On-Off copia.xlsm"
-    caminho_tags = r"server\excel\tags_filtradas.xlsx"
-    caminho_saida = r"server\excel\FD_Preenchido.xlsm"
+    # Construir caminhos corretos independentemente do sistema operacional
+    caminho_template = os.path.join("server", "excel", "Válvulas On-Off copia.xlsm")
+    caminho_tags = os.path.join("server", "excel", "tags_filtradas.xlsx")
+    caminho_saida = os.path.join("server", "excel", "FD_Preenchido.xlsm")
 
+    # Carregar o arquivo template
+    wb_template = load_workbook(caminho_template, keep_vba=True)
 
-    wb_template = load_workbook(
-        caminho_template, keep_vba=True
-    )  # Carregar o arquivo template
-
-
-    sheet_folhas = wb_template["Folhas"]  # Carregar a aba 'Folhas'
+    # Carregar a aba 'Folhas'
+    sheet_folhas = wb_template["Folhas"]
     df_tags = pd.read_excel(caminho_tags)
 
     mapeamento = {
@@ -25,27 +24,18 @@ def exportar_fd():
     }
 
     for _, row in df_tags.iterrows():  # Preencher o arquivo template com os dados
-        new_sheet = wb_template.copy_worksheet(
-            sheet_folhas
-        )  # Criar uma cópia da aba 'Folhas'
-        nome_aba = str(row["Nº Instrumento"])  # Nome da aba
+        new_sheet = wb_template.copy_worksheet(sheet_folhas)
+        nome_aba = str(row["Nº Instrumento"])
         new_sheet.title = nome_aba
 
-        for (
-            cell,
-            coluna,
-        ) in mapeamento.items():  # Preencher as células conforme o mapeamento
+        for cell, coluna in mapeamento.items():
             if coluna in row and pd.notna(row[coluna]):
-                new_sheet[cell] = str(
-                    row[coluna]
-                )  # Preencher a célula com o valor da coluna
+                new_sheet[cell] = str(row[coluna])  
 
-        notas = str(row.get("Nota", "")).split(
-            "Nota"
-        )  # irá separar depois que ver um outro Nota
+        notas = str(row.get("Nota", "")).split("Nota")
         for i, nota in enumerate(notas):
             new_sheet[f"A{43 + i}"] = nota.strip()
 
-
-    wb_template.save(caminho_saida)  # Salvar o novo arquivo preenchido
+    # Salvar o novo arquivo preenchido
+    wb_template.save(caminho_saida)
     print("Arquivo FD_Preenchido.xlsm gerado com sucesso!")
