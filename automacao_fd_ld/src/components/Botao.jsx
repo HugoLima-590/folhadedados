@@ -22,7 +22,7 @@ export default function Botao({ file, tagInstrumento }) {
             setError(null);
 
             // Envia o arquivo para processamento
-            await axios.post("http://127.0.0.1:5000/processar", formData, {
+            await axios.post("http://127.0.0.1:5000/", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
