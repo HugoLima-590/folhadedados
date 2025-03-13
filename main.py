@@ -7,15 +7,19 @@ from server.scripts.gerar_listas_de_tag_otimizada import processar_excel
 from server.scripts.alimentar_fd import exportar_fd
 
 app = Flask(__name__)
-CORS(app)  
+CORS(app)
 
+# Base diretório do projeto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(BASE_DIR, "server/excel")
+
+# Usando barra normal e garantido a criação da pasta de upload
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "server", "excel")
 ALLOWED_EXTENSIONS = {'xlsx', 'xls', 'xlsm', 'csv'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Garantir que a pasta de upload exista
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -47,9 +51,11 @@ def processar():
 
             time.sleep(5)
             
+            # Deletar arquivo depois de processar
             if os.path.exists(file_path):
                 os.remove(file_path)
-            
+
+            # Chama a função exportar_fd
             exportar_fd()
 
             return jsonify(dados_processados), 200  # Retorna HTTP 200 se der certo
@@ -61,7 +67,7 @@ def processar():
     
 @app.route('/download', methods=['GET'])
 def download_file():
-    caminho_saida = os.path.join(BASE_DIR, "server/excel/FD_Preenchido.xlsm")
+    caminho_saida = os.path.join(BASE_DIR, "server", "excel", "FD_Preenchido.xlsm")
 
     if os.path.exists(caminho_saida):
         return send_file(caminho_saida, as_attachment=True)
