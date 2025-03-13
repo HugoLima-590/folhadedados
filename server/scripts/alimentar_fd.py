@@ -3,11 +3,23 @@ import pandas as pd
 from openpyxl import load_workbook
 
 def exportar_fd(): 
+    # Construir caminhos absolutos
+    caminho_template = os.path.join(os.getcwd(), "server", "excel", "Válvulas On-Off copia.xlsm")
+    caminho_tags = os.path.join(os.getcwd(), "server", "excel", "tags_filtradas.xlsx")
+    caminho_saida = os.path.join(os.getcwd(), "server", "excel", "FD_Preenchido.xlsm")
 
-    # Construir caminhos corretos independentemente do sistema operacional
-    caminho_template = os.path.join("server", "excel", "Válvulas On-Off copia.xlsm")
-    caminho_tags = os.path.join("server", "excel", "tags_filtradas.xlsx")
-    caminho_saida = os.path.join("server", "excel", "FD_Preenchido.xlsm")
+    # Imprimir os caminhos para depuração
+    print(f"Template: {caminho_template}")
+    print(f"Tags: {caminho_tags}")
+    print(f"Saída: {caminho_saida}")
+
+    # Verificar se os arquivos existem
+    if not os.path.exists(caminho_template):
+        print(f"Erro: Arquivo {caminho_template} não encontrado.")
+        return
+    if not os.path.exists(caminho_tags):
+        print(f"Erro: Arquivo {caminho_tags} não encontrado.")
+        return
 
     # Carregar o arquivo template
     wb_template = load_workbook(caminho_template, keep_vba=True)
