@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 
 export default function Botao({ file, tagInstrumento }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [disabled, setDisabled] = useState(true);
+
+    useEffect(() => {
+        setDisabled(!(file && tagInstrumento)); // Desabilita se um dos valores for falso
+    }, [file, tagInstrumento]);
 
     const handleUpload = async () => {
         if (!file) {
@@ -18,7 +23,7 @@ export default function Botao({ file, tagInstrumento }) {
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("tag_instrumento", tagInstrumento); // Envia a tag para o backend
+        formData.append("tag_instrumento", tagInstrumento);
 
         try {
             setLoading(true);
@@ -52,7 +57,7 @@ export default function Botao({ file, tagInstrumento }) {
                 variant="contained" 
                 className="text-white bg-amber-900 mt-4" 
                 onClick={handleUpload} 
-                disabled={loading}
+                disabled={disabled}
             >
                 {loading ? "Processando..." : "Gerar e Baixar Documento"}
             </Button>
