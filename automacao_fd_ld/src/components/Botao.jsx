@@ -22,7 +22,7 @@ export default function Botao({ file, tagInstrumento }) {
             setError(null);
 
             // Envia o arquivo para processamento
-            await axios.post("https://HugolofGT.pythonanywhere.com", formData, {
+            await axios.post("https://HugolofGT.pythonanywhere.com/processar", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
@@ -30,7 +30,7 @@ export default function Botao({ file, tagInstrumento }) {
 
             // Faz o download do arquivo FD_Preenchido.xlsm
             const link = document.createElement("a");
-            link.href = "https://HugolofGT.pythonanywhere.com/downloads";
+            link.href = "https://HugolofGT.pythonanywhere.com/download";
             link.setAttribute("download", "FD_Preenchido.xlsm");
             document.body.appendChild(link);
             link.click();
