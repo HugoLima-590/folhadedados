@@ -24,7 +24,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/processar', methods=['POST'])
+@app.route('/', methods=['POST'])
 def processar():
     if 'file' not in request.files:
         return jsonify({"error": "Nenhum arquivo enviado."}), 400
@@ -69,4 +69,4 @@ def download_file():
         return jsonify({"error": "Arquivo não encontrado."}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True)
