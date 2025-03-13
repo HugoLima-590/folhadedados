@@ -12,14 +12,6 @@ export default function Botao({ file, tagInstrumento }) {
     }, [file, tagInstrumento]);
 
     const handleUpload = async () => {
-        if (!file) {
-            setError("Selecione um arquivo primeiro.");
-            return;
-        }
-        if (!tagInstrumento) {
-            setError("Digite a tag de instrumento para filtrar.");
-            return;
-        }
 
         const formData = new FormData();
         formData.append("file", file);
