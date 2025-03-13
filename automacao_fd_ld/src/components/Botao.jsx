@@ -8,7 +8,7 @@ export default function Botao({ file, tagInstrumento }) {
     const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
-        setDisabled(!(file && tagInstrumento)); // Desabilita se um dos valores for falso
+        setDisabled(!(file && tagInstrumento));
     }, [file, tagInstrumento]);
 
     const handleUpload = async () => {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Botao from './Botao';
-import TagInput from './TagInput'; // Importando o TagInput
+import TagInput from './TagInput'; 
 
 export default function TelaInputExcel() {
     const [file, setFile] = useState(null);
-    const [tagInstrumento, setTagInstrumento] = useState(""); // Estado para armazenar a tag
+    const [tagInstrumento, setTagInstrumento] = useState(""); 
 
     return (
         <div className='mb-20 p-20 w-200 h-95 bg-blue rounded-2xl container bg-gray-500'>
