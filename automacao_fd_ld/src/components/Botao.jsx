@@ -49,7 +49,7 @@ export default function Botao({ file, tagInstrumento }) {
                 variant="contained" 
                 className="text-white bg-amber-900 mt-4" 
                 onClick={handleUpload} 
-                disabled={disabled}
+                disabled={disabled || loading}
             >
                 {loading ? "Processando..." : "Gerar e Baixar Documento"}
             </Button>
