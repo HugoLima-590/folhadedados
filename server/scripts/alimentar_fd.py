@@ -1,29 +1,15 @@
 import pandas as pd
 from openpyxl import load_workbook
-import os
 
-# Função para exportar dados para o arquivo FD
 def exportar_fd():
-    # Caminho absoluto do diretório onde o script está
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    
-    # Caminho dos arquivos
-    caminho_template = os.path.join(BASE_DIR, "server", "excel", "Válvulas On-Off copia.xlsm")
-    caminho_tags = os.path.join(BASE_DIR, "server", "excel", "tags_filtradas.xlsx")
-    caminho_saida = os.path.join(BASE_DIR, "server", "excel", "FD_Preenchido.xlsm")
+    caminho_template = r"server/excel/Válvulas On-Off copia.xlsm"
+    caminho_tags = r"server/excel/tags_filtradas.xlsx"
+    caminho_saida = r"server/excel/FD_Preenchido.xlsm"
 
-    # Verificar se os arquivos existem antes de continuar
-    if not os.path.exists(caminho_template):
-        raise FileNotFoundError(f"Arquivo de template não encontrado: {caminho_template}")
-    if not os.path.exists(caminho_tags):
-        raise FileNotFoundError(f"Arquivo de tags não encontrado: {caminho_tags}")
-
-    # Carregar o template com VBA e a planilha de tags
     wb_template = load_workbook(caminho_template, keep_vba=True)
     sheet_folhas = wb_template["Folhas"]
     df_tags = pd.read_excel(caminho_tags)
 
-    # Mapeamento das células para os dados
     mapeamento = {
         "B6": "Nº Instrumento","B8": "Fluxograma","B10": "Tipo",
         "B12": "Diâmetro","N25": "Fluído","N27": "Pressão Oper.",
