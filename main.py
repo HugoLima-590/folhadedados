@@ -3,28 +3,22 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import time
+import threading
+from datetime import datetime
 from server.scripts.gerar_listas_de_tag_otimizada import processar_excel
 from server.scripts.alimentar_fd_valvulas_on_off import exportar_fd
 
 app = Flask(__name__)
 CORS(app)
 
-# Base diretório do projeto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Usando barra normal e garantido a criação da pasta de upload
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "server", "excel")
 ALLOWED_EXTENSIONS = {'xlsx', 'xls', 'xlsm', 'csv'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Garantir que a pasta de upload exista
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-    print(f"Pasta de upload criada: {UPLOAD_FOLDER}")
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -47,29 +41,48 @@ def processar():
         print(f"✅ Arquivo salvo no servidor: {file_path}")  # Debug
 
         try:
-            dados_processados = processar_excel(file_path, tag_instrumento)
+            # Processa o Excel e gera o FD preenchido
+            processar_excel(file_path, tag_instrumento)
+            
+            # Gera o nome do arquivo de saída dinâmico
+            data_atual = datetime.today().strftime("%d-%m-%Y")
+            output_filename = f"tag_{tag_instrumento}_fd_preenchido_{data_atual}.xlsm"
+            output_path = os.path.join(UPLOAD_FOLDER, output_filename)
 
             time.sleep(5)
-            
-            # Deletar arquivo depois de processar
+
+            # Deletar arquivo de entrada depois de processar
             if os.path.exists(file_path):
                 os.remove(file_path)
 
-            # Chama a função exportar_fd
-            exportar_fd()
+            output_path = os.path.join(BASE_DIR, "server", "excel")  
+            exportar_fd(output_path)
 
-            return jsonify(dados_processados), 200  # Retorna HTTP 200 se der certo
+            return jsonify({"filename": output_filename}), 200  # Retorna o nome do arquivo gerado
         except Exception as e:
             print(f"❌ Erro ao processar o arquivo: {e}")  # Debug para erros
             return jsonify({"error": str(e)}), 500  # Retorna HTTP 500 se falhar
     else:
         return jsonify({"error": "Arquivo inválido. Apenas xlsm, xlsx, xls ou csv são permitidos."}), 400
-    
-@app.route('/download', methods=['GET'])
-def download_file():
-    caminho_saida = os.path.join(BASE_DIR, "server", "excel", "FD_Preenchido.xlsm")
+
+@app.route('/download/<filename>', methods=['GET'])
+def download_file(filename):
+    caminho_saida = os.path.join(UPLOAD_FOLDER, filename)
 
     if os.path.exists(caminho_saida):
+        
+        # Função para deletar o arquivo em um thread separado
+        def delete_file_later():
+            time.sleep(3)
+            try:
+                os.remove(caminho_saida)  # Exclui o arquivo depois que ele for enviado
+                print(f"Arquivo {filename} deletado com sucesso.")
+            except Exception as e:
+                print(f"❌ Erro ao excluir o arquivo: {e}")
+
+        # Cria uma thread para excluir o arquivo após o envio
+        threading.Thread(target=delete_file_later).start()
+
         return send_file(caminho_saida, as_attachment=True)
     else:
         return jsonify({"error": "Arquivo não encontrado."}), 404
