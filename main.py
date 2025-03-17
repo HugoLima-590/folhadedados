@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import os
 import time
 from server.scripts.gerar_listas_de_tag_otimizada import processar_excel
-from server.scripts.alimentar_fd import exportar_fd
+from server.scripts.alimentar_fd_valvulas_on_off import exportar_fd
 
 app = Flask(__name__)
 CORS(app)
