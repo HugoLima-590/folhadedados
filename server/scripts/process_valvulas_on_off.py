@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 from datetime import datetime
 
 def exportar_fd(file_path):
-    caminho_template = r"server/excel/Válvulas On-Off copia.xlsm"
+    caminho_template = r"server/excel/templates/Válvulas On-Off copia.xlsm"
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 
     wb_template = load_workbook(caminho_template, keep_vba=True)

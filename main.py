@@ -5,8 +5,8 @@ import os
 import time
 import threading
 from datetime import datetime
-from server.scripts.gerar_listas_de_tag_otimizada import processar_excel
-from server.scripts.alimentar_fd_valvulas_on_off import exportar_fd
+from server.scripts.gerar_listas_de_tag import processar_excel
+from server.scripts.process_valvulas_on_off import exportar_fd
 
 app = Flask(__name__)
 CORS(app)
