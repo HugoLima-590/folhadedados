@@ -6,7 +6,7 @@ export default function Botao({ file, tagInstrumento }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
-    const [downloadUrl, setDownloadUrl] = useState("");
+    const [downloadUrl] = useState("");
 
     useEffect(() => {
         setDisabled(!(file && tagInstrumento));

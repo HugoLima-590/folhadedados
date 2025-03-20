@@ -2,7 +2,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from datetime import datetime
 
-def exportar_fd(file_path):
+def exportar_fd_bombas(file_path):
     caminho_template = r"server/excel/templates/Bombas.xlsm"
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 

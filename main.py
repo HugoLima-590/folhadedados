@@ -6,7 +6,15 @@ import time
 import threading
 from datetime import datetime
 from server.scripts.gerar_listas_de_tag import processar_excel
-from server.scripts.process_valvulas_on_off import exportar_fd
+from server.scripts.process_bombas import exportar_fd_bombas
+from server.scripts.process_chave_de_nivel import exportar_fd_chave
+from server.scripts.process_manometro import exportar_fd_manometro
+from server.scripts.process_psv import exportar_fd_psv
+from server.scripts.process_tanque import exportar_fd_tanque
+from server.scripts.process_transmissores import exportar_fd_transmissores
+from server.scripts.process_valvulas_on_off import exportar_fd_valvulas
+from server.scripts.process_vapv import exportar_fd_vapv
+
 
 app = Flask(__name__)
 CORS(app)
@@ -15,12 +23,23 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "server", "excel")
 ALLOWED_EXTENSIONS = {'xlsx', 'xls', 'xlsm', 'csv'}
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#Dicionário dependendo da inicial da TAG
+tag_functions = {
+    "xv" or "xzv":  exportar_fd_valvulas,
+    "": exportar_fd_bombas,
+    "f": exportar_fd_chave,
+    "pdit" or "pit": exportar_fd_transmissores,
+    "tit": exportar_fd_manometro,
+    "psv": exportar_fd_psv,
+    "tanque": exportar_fd_tanque,
+    "vapv": exportar_fd_vapv
+}
 
 @app.route('/', methods=['POST'])
 def processar():
@@ -55,15 +74,20 @@ def processar():
             if os.path.exists(file_path):
                 os.remove(file_path)
 
-            output_path = os.path.join(BASE_DIR, "server", "excel")  
-            exportar_fd(output_path)
-
-            return jsonify({"filename": output_filename}), 200  # Retorna o nome do arquivo gerado
+            if tag_instrumento in tag_functions:
+                tag_functions[tag_instrumento](output_path)
+                return jsonify({"filename": output_filename}), 200 
+            else:
+                return jsonify({"error": "Tag de instrumento não reconhecida"}), 400
         except Exception as e:
             print(f"❌ Erro ao processar o arquivo: {e}")  # Debug para erros
             return jsonify({"error": str(e)}), 500  # Retorna HTTP 500 se falhar
     else:
         return jsonify({"error": "Arquivo inválido. Apenas xlsm, xlsx, xls ou csv são permitidos."}), 400
+
+
+
+
 
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):
