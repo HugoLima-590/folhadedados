@@ -2,8 +2,8 @@ import pandas as pd
 from openpyxl import load_workbook
 from datetime import datetime
 
-def exportar_fd_psv(file_path):
-    caminho_template = r"server/excel/templates/PSV.xlsm"
+def exportar_fd_transmissor_pressao(file_path):
+    caminho_template = r"server/excel/templates/Transmissores de Pressão.xlsx"
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 
     wb_template = load_workbook(caminho_template, keep_vba=True)
@@ -37,7 +37,7 @@ def exportar_fd_psv(file_path):
     tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
 
     # Criando o nome do arquivo no formato desejado
-    caminho_saida = f"server/excel/tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm"
+    caminho_saida = f"server/excel/tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm".lower()
 
     # Salvar o arquivo preenchido uma única vez
     wb_template.save(caminho_saida)

@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from openpyxl import load_workbook
 from datetime import datetime
@@ -37,9 +38,14 @@ def exportar_fd_valvulas(file_path):
     tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
 
     # Criando o nome do arquivo no formato desejado
-    caminho_saida = f"server/excel/tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm"
+    output_filename = f"tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm".lower()
 
-    # Salvar o arquivo preenchido uma única vez
-    wb_template.save(caminho_saida)
-    print(f"Arquivo {caminho_saida} gerado com sucesso!")
+    # Diretório para salvar o arquivo (caminho da pasta onde os arquivos podem ser baixados)
+    output_path = os.path.join("server/excel", output_filename)
 
+    # Salvar o arquivo preenchido
+    wb_template.save(output_path)
+    print(f"Arquivo {output_path} gerado com sucesso!")
+    
+    # Retorna o caminho relativo para download
+    return output_filename
