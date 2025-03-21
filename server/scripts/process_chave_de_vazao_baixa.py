@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
 from datetime import datetime
+import re
 
 def exportar_fd_chave_baixa(file_path):
     caminho_template = r"server/excel/templates/Chave de Vazão Baixa.xlsx"
@@ -11,10 +12,9 @@ def exportar_fd_chave_baixa(file_path):
     df_tags = pd.read_excel(caminho_tags)
 
     mapeamento = {
-        "G7": "Nº Instrumento", "B8": "Fluxograma", "B10": "Tipo",
-        "B12": "Diâmetro", "N25": "Fluído", "N27": "Pressão Oper.",
-        "N29": "Viscosidade", "N31": "Vazão max", "N32": "Vazão min",
-        "N34": "Temperatura oper. max", "N36": "Densidade", "A43": "Nota",
+        "D6": "Nº Instrumento","D12": "Fluído", "D15": "Diâmetro", "D25": "Diâmetro",
+        "J32": "Fluído", "J33": "Densidade", "J34": "Viscosidade", "J36": "Pressão Oper.", 
+        "D38": "Vazão min", "P38": "Vazão max", "D40": "Nota"
     }
 
     data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
@@ -34,7 +34,7 @@ def exportar_fd_chave_baixa(file_path):
 
     # Pegando apenas a parte inicial da tag (as letras antes de números)
     tag = str(row["Nº Instrumento"])
-    tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
+    tag_abreviada = "".join(re.findall(r"[A-Za-z]", tag))[:3]  # Mantém apenas letras
 
     # Criando o nome do arquivo no formato desejado
     caminho_saida = f"server/excel/tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm".lower()

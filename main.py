@@ -17,6 +17,8 @@ from server.scripts.process_transmissor_de_temperatura import exportar_fd_transm
 from server.scripts.process_valvulas_on_off import exportar_fd_valvulas
 from server.scripts.process_vapv_psv import exportar_fd_vapv_psv
 
+from server.scripts.error_handler import handle_error
+
 app = Flask(__name__)
 CORS(app)
 
@@ -93,10 +95,7 @@ def processar():
             
             
         except Exception as e:
-            print(f"❌ Erro ao processar o arquivo: {e}")  # Debug para erros
-            return jsonify({"error": str(e)}), 500  # Retorna HTTP 500 se falhar
-    else:
-        return jsonify({"error": "Arquivo inválido. Apenas xlsm, xlsx, xls ou csv são permitidos."}), 400
+            return handle_error(e)  # Retorna HTTP 500 se falhar
 
 
 @app.route('/download/<filename>', methods=['GET'])
@@ -112,7 +111,7 @@ def download_file(filename):
                 os.remove(caminho_saida)  # Exclui o arquivo depois que ele for enviado
                 print(f"Arquivo {filename} deletado com sucesso.")
             except Exception as e:
-                print(f"❌ Erro ao excluir o arquivo: {e}")
+                return handle_error(e)
 
         # Cria uma thread para excluir o arquivo após o envio
         threading.Thread(target=delete_file_later).start()
