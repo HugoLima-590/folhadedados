@@ -3,7 +3,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from datetime import datetime
 
-def exportar_fd_valvulas(file_path):
+def exportar_fd_valvulas(caminho_saida):
     caminho_template = r"server/excel/templates/Válvulas On-Off copia.xlsm"
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 

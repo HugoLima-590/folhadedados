@@ -17,7 +17,6 @@ from server.scripts.process_transmissor_de_temperatura import exportar_fd_transm
 from server.scripts.process_valvulas_on_off import exportar_fd_valvulas
 from server.scripts.process_vapv_psv import exportar_fd_vapv_psv
 
-
 app = Flask(__name__)
 CORS(app)
 
@@ -84,17 +83,20 @@ def processar():
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+
             if tag_instrumento in tag_functions:
                 tag_functions[tag_instrumento](output_path)
                 return jsonify({"filename": output_filename}), 200 
             else:
                 return jsonify({"error": "Tag de instrumento não reconhecida"}), 400
+            
+            
+            
         except Exception as e:
             print(f"❌ Erro ao processar o arquivo: {e}")  # Debug para erros
             return jsonify({"error": str(e)}), 500  # Retorna HTTP 500 se falhar
     else:
         return jsonify({"error": "Arquivo inválido. Apenas xlsm, xlsx, xls ou csv são permitidos."}), 400
-
 
 
 @app.route('/download/<filename>', methods=['GET'])
