@@ -11,10 +11,9 @@ def exportar_fd_transmissor_pressao(file_path):
     df_tags = pd.read_excel(caminho_tags)
 
     mapeamento = {
-        "G7": "Nº Instrumento", "B8": "Fluxograma", "B10": "Tipo",
-        "B12": "Diâmetro", "N25": "Fluído", "N27": "Pressão Oper.",
-        "N29": "Viscosidade", "N31": "Vazão max", "N32": "Vazão min",
-        "N34": "Temperatura oper. max", "N36": "Densidade", "A43": "Nota",
+        "D6": "Nº Instrumento","J32": "Fluído", "J33": "Densidade", 
+        "J34": "Viscosidade", "D35": "Temperatura oper. min", "P35": "Temperatura oper. max",
+        "J36": "Pressão Oper.", "D38": "Vazão min", "P38": "Vazão max", "D40": "Nota"
     }
 
     data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
@@ -28,9 +27,13 @@ def exportar_fd_transmissor_pressao(file_path):
             if coluna in row and pd.notna(row[coluna]):
                 new_sheet[cell] = str(row[coluna])
 
+        fluidos = str(row.get("Fluído", "")).split("Fluído")
+        for i, fluido in enumerate(fluidos):
+            new_sheet[f"B{40 + i}"] = fluido.strip()
+            
         notas = str(row.get("Nota", "")).split("Nota")
         for i, nota in enumerate(notas):
-            new_sheet[f"A{43 + i}"] = nota.strip()
+            new_sheet[f"D{40 + i}"] = nota[10:].strip()
 
     # Pegando apenas a parte inicial da tag (as letras antes de números)
     tag = str(row["Nº Instrumento"])

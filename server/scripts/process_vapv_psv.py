@@ -11,10 +11,9 @@ def exportar_fd_vapv_psv(file_path):
     df_tags = pd.read_excel(caminho_tags)
 
     mapeamento = {
-        "G7": "Nº Instrumento", "B8": "Fluxograma", "B10": "Tipo",
-        "B12": "Diâmetro", "N25": "Fluído", "N27": "Pressão Oper.",
-        "N29": "Viscosidade", "N31": "Vazão max", "N32": "Vazão min",
-        "N34": "Temperatura oper. max", "N36": "Densidade", "A43": "Nota",
+        "G7": "Nº Instrumento", "J17": "Fluído", "J18": "Vazão",
+        "J19": "Pressão Oper.", "M27": "Viscosidade",
+        "J20": "Temperatura Oper.", "B53": "Notas"
     }
 
     data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
@@ -30,7 +29,7 @@ def exportar_fd_vapv_psv(file_path):
 
         notas = str(row.get("Nota", "")).split("Nota")
         for i, nota in enumerate(notas):
-            new_sheet[f"A{43 + i}"] = nota.strip()
+            new_sheet[f"B{53 + i}"] = nota.strip()
 
     # Pegando apenas a parte inicial da tag (as letras antes de números)
     tag = str(row["Nº Instrumento"])
