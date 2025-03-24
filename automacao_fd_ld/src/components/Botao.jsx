@@ -63,10 +63,10 @@ export default function Botao({ file, tagInstrumento }) {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-6">
             <Button
                 variant="contained"
-                className="text-white bg-amber-900 mt-4"
+                className="text-white bg-amber-900"
                 onClick={handleUpload}
                 disabled={disabled || loading}
             >
