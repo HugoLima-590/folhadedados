@@ -6,7 +6,7 @@ export default function App() {
       <img
         src="/Texto_do_seu_parágrafo_20250324_114428_0000_page-0001-removebg-preview.png"
         alt="png"
-        className="bg-gray-100 rounded-2xl w-50 h-20 object-cover object-center mb-20 -mt-10"
+        className="bg-gray-100 rounded-2xl w-80 h-25 object-cover object-center mb-16 -mt-1"
       />
 
       <p className="mb-6 rounded-2xl flex justify-center p-4 font-medium text-black bg-white w-200 text-2xl">
