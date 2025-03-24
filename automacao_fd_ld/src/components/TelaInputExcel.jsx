@@ -13,7 +13,7 @@ export default function TelaInputExcel() {
                     src="/ponto-de-exclamacao-em-um-circulo.png"
                     className="size-5 "
                 />
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-gray-50">
                     Aviso: Para que o sistema funcione corretamente, sua Lista de Instrumentos deve seguir o formato esperado.
                     Caso tenha dúvidas, baixe um exemplo:
                     <a
@@ -21,7 +21,7 @@ export default function TelaInputExcel() {
                         download
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-50 underline ml-1"
+                        className="text-gray-300 underline ml-1"
                     >
                         Baixar Template
                     </a>
