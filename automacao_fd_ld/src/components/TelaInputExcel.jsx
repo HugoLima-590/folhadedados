@@ -14,7 +14,7 @@ export default function TelaInputExcel() {
                     className="size-5 "
                 />
                 <p className="text-sm text-gray-300">
-                    Atenção: Para que o sistema funcione corretamente, sua Lista de Instrumentos deve seguir o formato esperado.
+                    Aviso: Para que o sistema funcione corretamente, sua Lista de Instrumentos deve seguir o formato esperado.
                     Caso tenha dúvidas, baixe um exemplo:
                     <a
                         href="/Template Lista de Instrumentos.xlsx"
