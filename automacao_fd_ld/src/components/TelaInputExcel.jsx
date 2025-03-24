@@ -11,22 +11,21 @@ export default function TelaInputExcel() {
             <p className="text-sm text-gray-300 -mt-7 flex">
                 <img
                     src="/ponto-de-exclamacao-em-um-circulo.png"
-                    alt="Ícone"
+                    alt="Aviso"
                     className="w-5 h-5 mr-2"
                 />
-                Importante: Para que o sistema funcione, é importante que a Lista de
-                Instrumentos siga este padrão de arquivo:
+                Aviso: Para que o sistema funcione corretamente, utilize uma Lista de Instrumentos no formato padrão.
             </p>
 
             <a
-                    href="/Template Lista de Instrumentos.xlsx"
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 underline justify-center flex mt-1"
-                >
-                    Baixar Template
-                </a>
+                href="/Template Lista de Instrumentos.xlsx"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 underline justify-center flex mt-1"
+            >
+                Baixar Template
+            </a>
 
             <input
                 className="flex w-full text-md mt-8 p-1.5 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
