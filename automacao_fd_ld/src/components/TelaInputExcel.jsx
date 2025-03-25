@@ -21,7 +21,7 @@ export default function TelaInputExcel() {
                         download
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-300 underline ml-1"
+                        className="text-blue-300 underline ml-1"
                     >
                         Baixar Template
                     </a>
