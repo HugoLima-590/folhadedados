@@ -25,9 +25,9 @@ def exportar_fd_chave_escotilha(file_path):
             if coluna in row and pd.notna(row[coluna]):
                 new_sheet[cell] = str(row[coluna])
 
-        notas = str(row.get("Nota", "")).split("Nota")
-        for i, nota in enumerate(notas):
-            new_sheet[f"A{43 + i}"] = nota.strip()
+        # #notas = str(row.get("Nota", "")).split("Nota")
+        # for i, nota in enumerate(notas):
+        #     new_sheet[f"A{43 + i}"] = nota.strip()
 
     # Pegando apenas a parte inicial da tag (as letras antes de números)
     tag = str(row["Nº Instrumento"])
