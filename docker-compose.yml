@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "5000:5000"  # Mapeando a porta 5000 do contêiner para 5000 do host
+
+  frontend:
+    build: ./automacao_fd_ld
+    ports:
+      - "3000:80"  # Porta do frontend (ajuste conforme necessário)
+    depends_on:
+      - backend

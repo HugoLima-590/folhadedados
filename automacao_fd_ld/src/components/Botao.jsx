@@ -22,7 +22,7 @@ export default function Botao({ file, tagInstrumento }) {
             setLoading(true);
             setError(null);
 
-            const response = await axios.post("http://127.0.0.1:5000/", formData, {
+            const response = await axios.post("http://backend:5000/", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
@@ -33,7 +33,7 @@ export default function Botao({ file, tagInstrumento }) {
                 throw new Error("Nome do arquivo não retornado pelo servidor.");
             }
 
-            const downloadResponse = await axios.get(`http://127.0.0.1:5000/download/${filename}`, {
+            const downloadResponse = await axios.get(`http://backend:5000/download/${filename}`, {
                 responseType: "blob",
             });
 

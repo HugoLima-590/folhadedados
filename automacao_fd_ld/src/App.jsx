@@ -8,9 +8,6 @@ export default function App() {
         alt="png"
         className="bg-gray-100 rounded-2xl w-80 h-25 object-cover object-center mb-16 -mt-1"
       />
-
-      
-
       <TelaInputExcel />
     </div>
   );
