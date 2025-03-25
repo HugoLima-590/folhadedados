@@ -9,9 +9,7 @@ export default function App() {
         className="bg-gray-100 rounded-2xl w-80 h-25 object-cover object-center mb-16 -mt-1"
       />
 
-      <p className="mb-6 rounded-2xl flex justify-center p-4 font-medium text-black bg-white w-200 text-2xl">
-        Lista de Instrumentos para Folha de Dados
-      </p>
+      
 
       <TelaInputExcel />
     </div>

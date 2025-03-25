@@ -11,9 +11,9 @@ export default function TelaInputExcel() {
             <header className="flex items-center justify-start gap-3 w-full -mt-5">
                 <img
                     src="/ponto-de-exclamacao-em-um-circulo.png"
-                    className="size-5 "
+                    className="size-5 mt-2"
                 />
-                <p className="text-sm text-gray-50">
+                <p className="text-sm text-gray-50 mt-2">
                     Aviso: Para que o sistema funcione corretamente, sua Lista de Instrumentos deve seguir o formato esperado.
                     Caso tenha dúvidas, baixe um exemplo:
                     <a
@@ -35,7 +35,7 @@ export default function TelaInputExcel() {
                 accept=".xls,.xlsx,.xlsm,.csv"
                 onChange={(e) => setFile(e.target.files[0])}
             />
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-gray-300 font-medium">
                 Arquivos suportados pelo sistema: xlsm, xlsx, xls ou csv.
             </p>
 

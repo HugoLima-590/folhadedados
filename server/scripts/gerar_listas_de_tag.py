@@ -1,7 +1,7 @@
 import pandas as pd
 
 def processar_excel(caminho_arquivo, tag_instrumento):
-    
+
     #Lê o arquivo mas só as abas
     abas = pd.ExcelFile(caminho_arquivo, engine="openpyxl").sheet_names
     
@@ -24,7 +24,10 @@ def processar_excel(caminho_arquivo, tag_instrumento):
         df.columns[100], df.columns[104], df.columns[108], df.columns[111], df.columns[121]
     ]
     
-    df_filtrado = df[df[df.columns[3]].fillna("").astype(str).str.lower().str.startswith(tag_instrumento.lower())]
+    df_filtrado = df[df[df.columns[3]]
+        .astype(str)
+        .str.lower()
+        .str.match(f'{tag_instrumento}-')]
     """
     Explicação da linha de código acima:
     Seleciona a 4° coluna,
@@ -35,7 +38,6 @@ def processar_excel(caminho_arquivo, tag_instrumento):
     """
     #Filtra apenas as colunas listadas
     df_filtrado = df_filtrado[colunas_interesse]
-
     df_filtrado.columns = [
         "Nº Instrumento", "Diâmetro", "Fluído", "Fluxograma", "Desenho Nº",
         "Tipo", "Densidade", "Viscosidade", "Pressão Oper.", "Pressão Proj.",

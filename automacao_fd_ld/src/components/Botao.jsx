@@ -63,7 +63,7 @@ export default function Botao({ file, tagInstrumento }) {
     };
 
     return (
-        <div className="flex flex-col items-center mt-6">
+        <div className="flex flex-col items-center mt-4">
             <Button
                 variant="contained"
                 className="text-white bg-amber-900"

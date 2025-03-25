@@ -37,6 +37,7 @@ tag_functions = {
     "xv": exportar_fd_valvulas,
     "xzv": exportar_fd_valvulas,
     "zs": exportar_fd_chave_escotilha,
+    "zsc": exportar_fd_chave_escotilha,
     "fsl": exportar_fd_chave_baixa,
     "tit": exportar_fd_transmissor_temperatura,
     "tt": exportar_fd_transmissor_temperatura,
