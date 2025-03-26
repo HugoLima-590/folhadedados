@@ -3,14 +3,16 @@ version: '3.8'
 services:
   backend:
     build:
-      context: .
-      dockerfile: server/Dockerfile
+      context: .  # Diretório onde está o Dockerfile do backend
+      dockerfile: Dockerfile  # Nome do Dockerfile do backend
     ports:
-      - "5000:5000"  # Mapeando a porta 5000 do contêiner para 5000 do host
+      - "0.0.0.0:5000:5000"  # Mapeando a porta 5000 do contêiner para 5000 do host
 
   frontend:
-    build: ./automacao_fd_ld
+    build:
+      context: ./automacao_fd_ld  # Diretório onde está o Dockerfile do frontend
+      dockerfile: Dockerfile  # Nome do Dockerfile do frontend
     ports:
-      - "3000:80"  # Porta do frontend (ajuste conforme necessário)
+      - "0.0.0.0:3000:80"  # Porta do frontend (ajuste conforme necessário)
     depends_on:
       - backend
