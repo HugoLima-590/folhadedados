@@ -14,53 +14,58 @@ export default function Botao({ file, tagInstrumento }) {
     }, [file, tagInstrumento]);
 
     const handleUpload = async () => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("tag_instrumento", tagInstrumento);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("tag_instrumento", tagInstrumento);
 
-        try {
-            setLoading(true);
-            setError(null);
+    try {
+        setLoading(true);
+        setError(null);
 
-            const response = await axios.post("http://127.0.0.1:5000/", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
+        const response = await axios.post("http://127.0.0.1:5000/", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+        console.log("AQui",response); 
+        console.log(response.data);
 
-            console.log("✅ Processamento concluído! Iniciando download...");
-            const { filename } = response.data;
+        // Certifique-se de que a resposta contém a string do nome do arquivo
+        const filename = response.data.filename;  // Nome do arquivo gerado
+        console.log("📁 Nome do arquivo:", filename);
 
-            if (!filename) {
-                throw new Error("Nome do arquivo não retornado pelo servidor.");
-            }
-
-            const downloadResponse = await axios.get(`http://127.0.0.1:5000/download/${filename}`, {
-                responseType: "blob",
-            });
-
-            const url = window.URL.createObjectURL(new Blob([downloadResponse.data]));
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", filename);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (err) {
-            let errorMessage = "Erro desconhecido";
-
-            if (err.response?.data?.error) {
-                errorMessage = err.response.data.error;
-            } else if (err.message.includes("Network Error")) {
-                errorMessage = "Servidor não disponível, contate a equipe de TI.";
-            } else if (err.message) {
-                errorMessage = `Erro ao processar o arquivo: ${err.message}`;
-            }
-
-            setError(errorMessage);
-        } finally {
-            setLoading(false);
+        if (!filename) {
+            throw new Error("Nome do arquivo não retornado pelo servidor.");
         }
-    };
+
+        // Solicitar o arquivo para download
+        const downloadResponse = await axios.get(`http://127.0.0.1:5000/download/${filename}`, {
+            responseType: "blob",
+        });
+
+        const url = window.URL.createObjectURL(new Blob([downloadResponse.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", filename);  // O nome correto para o arquivo
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (err) {
+        let errorMessage = "Erro desconhecido";
+
+        if (err.response?.data?.error) {
+            errorMessage = err.response.data.error;
+        } else if (err.message.includes("Network Error")) {
+            errorMessage = "Servidor não disponível, contate a equipe de TI.";
+        } else if (err.message) {
+            errorMessage = `Erro ao processar o arquivo: ${err.message}`;
+        }
+
+        setError(errorMessage);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <div className="flex flex-col items-center mt-4">

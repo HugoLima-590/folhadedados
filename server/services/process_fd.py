@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask import jsonify
 import os
 import time
 from server.config import UPLOAD_FOLDER
@@ -31,25 +32,33 @@ tag_functions = {
 def process_fd(file_path, tag_instrumento):
     """Processa o arquivo e gera um novo FD preenchido."""
     try:
+        # Processa o arquivo Excel
         processar_excel(file_path, tag_instrumento)
-        
+
         # Nome do arquivo de saída
         data_atual = datetime.today().strftime("%d-%m-%Y")
         output_filename = f"tag_{tag_instrumento}_fd_preenchido_{data_atual}.xlsm"
         output_path = os.path.join(UPLOAD_FOLDER, output_filename)
+        print(f"Nome do arquivo gerado: {output_filename}")
 
-        time.sleep(5)  # Simulando processamento
+
+        time.sleep(5)  # Simulando o processamento do arquivo
 
         # Remove arquivo de entrada
         if os.path.exists(file_path):
             os.remove(file_path)
 
-        # Verifica se há uma função para essa TAG
+        # Verifica se a tag está no mapeamento de funções
         if tag_instrumento in tag_functions:
+            # Chama a função apropriada para a TAG
             tag_functions[tag_instrumento](output_path)
-            return output_filename, 200
+            return jsonify({"filename": output_filename}), 200 # Retorna um dicionário com o filename e o código de status
         else:
-            return {"error": "Tag de instrumento não reconhecida"}, 400
+            # Caso a TAG não seja reconhecida
+            return jsonify({"error": "Tag de instrumento não reconhecida"}), 400
 
     except Exception as e:
-        return handle_error(e)
+        # Em caso de erro, chama o handler para formatar o erro de maneira consistente
+        error_message, status_code = handle_error(e)
+        return {"error": error_message}, status_code
+

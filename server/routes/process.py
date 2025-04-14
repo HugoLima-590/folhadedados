@@ -19,5 +19,6 @@ def processar():
     if not file_path:
         return jsonify({"error": "Formato de arquivo inválido."}), 400
 
-    output_filename, status_code = process_fd(file_path, tag_instrumento)
-    return jsonify({"filename": output_filename}), status_code
+    # Retorna diretamente a resposta da função process_fd
+    return process_fd(file_path, tag_instrumento)
+
