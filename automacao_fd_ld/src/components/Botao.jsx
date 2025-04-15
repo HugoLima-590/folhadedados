@@ -25,12 +25,9 @@ export default function Botao({ file, tagInstrumento }) {
         const response = await axios.post("http://127.0.0.1:5000/", formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
-        console.log("AQui",response); 
-        console.log(response.data);
 
         // Certifique-se de que a resposta contém a string do nome do arquivo
         const filename = response.data.filename;  // Nome do arquivo gerado
-        console.log("📁 Nome do arquivo:", filename);
 
         if (!filename) {
             throw new Error("Nome do arquivo não retornado pelo servidor.");

@@ -8,11 +8,9 @@ def exportar_fd_valvulas(caminho_saida):
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 
     try:
-        print(f"Carregando template: {caminho_template}")
         wb_template = load_workbook(caminho_template, keep_vba=True)
         sheet_folhas = wb_template["Folhas"]
 
-        print(f"Lendo tags de: {caminho_tags}")
         df_tags = pd.read_excel(caminho_tags)
 
         mapeamento = {
@@ -47,10 +45,7 @@ def exportar_fd_valvulas(caminho_saida):
         # Diretório para salvar o arquivo (caminho da pasta onde os arquivos podem ser baixados)
         output_path = os.path.join("server/excel", output_filename)
 
-        print(f"Salvando o arquivo em: {output_path}")
         wb_template.save(output_path)
-
-        print(f"Arquivo {output_path} gerado com sucesso!")
         
         # Retorna o caminho relativo para download
         return output_filename

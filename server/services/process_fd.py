@@ -39,7 +39,6 @@ def process_fd(file_path, tag_instrumento):
         data_atual = datetime.today().strftime("%d-%m-%Y")
         output_filename = f"tag_{tag_instrumento}_fd_preenchido_{data_atual}.xlsm"
         output_path = os.path.join(UPLOAD_FOLDER, output_filename)
-        print(f"Nome do arquivo gerado: {output_filename}")
 
 
         time.sleep(5)  # Simulando o processamento do arquivo

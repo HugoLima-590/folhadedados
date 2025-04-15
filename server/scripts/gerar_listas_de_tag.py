@@ -17,8 +17,6 @@ def processar_excel(caminho_arquivo, tag_instrumento):
     #Preenche os valores NaN com os valores de antes
     df = df.ffill().fillna("")
     
-    print(df)
-    
     # Valores na linha 5 (index 4)
     colunas_interesse = [
         df.columns[1], df.columns[4], df.columns[5], df.columns[6],
@@ -27,16 +25,10 @@ def processar_excel(caminho_arquivo, tag_instrumento):
         df.columns[15], df.columns[16], df.columns[17], df.columns[18]
     ]
 
-    print(df[df.columns[1]].unique())  # Mostra todos os valores da coluna B
-    print("Buscando por tag:", f"{tag_instrumento}-")
-
-
     df_filtrado = df[df[df.columns[1]]
         .astype(str)
         .str.lower()
         .str.match(f'{tag_instrumento}-')]
-    
-    print(df_filtrado[colunas_interesse])
     """
     Explicação da linha de código acima:
     Seleciona a 4° coluna,
