@@ -7,45 +7,49 @@ def exportar_fd_valvulas(caminho_saida):
     caminho_template = r"server/excel/templates/Válvulas On-Off copia.xlsm"
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 
-    wb_template = load_workbook(caminho_template, keep_vba=True)
-    sheet_folhas = wb_template["Folhas"]
-    df_tags = pd.read_excel(caminho_tags)
+    try:
+        wb_template = load_workbook(caminho_template, keep_vba=True)
+        sheet_folhas = wb_template["Folhas"]
 
-    mapeamento = {
-        "B6": "Nº Instrumento", "B8": "Fluxograma", "B10": "Tipo",
-        "B12": "Diâmetro", "N25": "Fluído", "N27": "Pressão Oper.",
-        "N29": "Viscosidade", "N31": "Vazão max", "N32": "Vazão min",
-        "N34": "Temperatura oper. max", "N36": "Densidade", "A43": "Nota",
-    }
+        df_tags = pd.read_excel(caminho_tags)
 
-    data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
+        mapeamento = {
+            "B6": "Tag do Instrumento", "B8": "Fluxograma", "B10": "Tipo",
+            "B12": "Diâmetro", "N25": "Fluído", "N27": "Pressão Oper.",
+            "N29": "Viscosidade", "N31": "Vazão max", "N32": "Vazão min",
+            "N34": "Temperatura oper. max", "N36": "Densidade", "A43": "Nota",
+        }
 
-    for _, row in df_tags.iterrows():
-        new_sheet = wb_template.copy_worksheet(sheet_folhas)  
-        nome_aba = str(row["Nº Instrumento"])  
-        new_sheet.title = nome_aba
+        data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
 
-        for cell, coluna in mapeamento.items():
-            if coluna in row and pd.notna(row[coluna]):
-                new_sheet[cell] = str(row[coluna])
+        for _, row in df_tags.iterrows():
+            new_sheet = wb_template.copy_worksheet(sheet_folhas)
+            nome_aba = str(row["Tag do Instrumento"])  
+            new_sheet.title = nome_aba
 
-        notas = str(row.get("Nota", "")).split("Nota")
-        for i, nota in enumerate(notas):
-            new_sheet[f"A{43 + i}"] = nota.strip()
+            for cell, coluna in mapeamento.items():
+                if coluna in row and pd.notna(row[coluna]):
+                    new_sheet[cell] = str(row[coluna])
 
-    # Pegando apenas a parte inicial da tag (as letras antes de números)
-    tag = str(row["Nº Instrumento"])
-    tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
+            notas = str(row.get("Nota", "")).split("Nota")
+            for i, nota in enumerate(notas):
+                new_sheet[f"A{43 + i}"] = nota.strip()
 
-    # Criando o nome do arquivo no formato desejado
-    output_filename = f"tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm".lower()
+        # Pegando apenas a parte inicial da tag (as letras antes de números)
+        tag = str(row["Tag do Instrumento"])
+        tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
 
-    # Diretório para salvar o arquivo (caminho da pasta onde os arquivos podem ser baixados)
-    output_path = os.path.join("server/excel", output_filename)
+        # Criando o nome do arquivo no formato desejado
+        output_filename = f"tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm".lower()
 
-    # Salvar o arquivo preenchido
-    wb_template.save(output_path)
-    print(f"Arquivo {output_path} gerado com sucesso!")
-    
-    # Retorna o caminho relativo para download
-    return output_filename
+        # Diretório para salvar o arquivo (caminho da pasta onde os arquivos podem ser baixados)
+        output_path = os.path.join("server/excel", output_filename)
+
+        wb_template.save(output_path)
+        
+        # Retorna o caminho relativo para download
+        return output_filename
+
+    except Exception as e:
+        print(f"Erro ao exportar FD: {e}")
+        raise  # Levanta o erro novamente para garantir que ele seja capturado pelo handler externo

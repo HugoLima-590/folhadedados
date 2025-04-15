@@ -13,7 +13,7 @@ def download_file(filename):
 
     if os.path.exists(caminho_saida):
         def delete_file_later():
-            time.sleep(3)
+            time.sleep(10)
             try:
                 os.remove(caminho_saida)
                 print(f"Arquivo {filename} deletado.")

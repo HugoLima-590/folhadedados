@@ -7,7 +7,7 @@ export default function TelaInputExcel() {
     const [tagInstrumento, setTagInstrumento] = useState("");
 
     return (
-        <div className="mb-10 p-10 w-200 h-90 rounded-2xl container bg-gray-500">
+        <div className="mb-10 p-10 w-200 h-100 rounded-2xl container bg-gray-500">
             <header className="flex items-center justify-start gap-3 w-full -mt-5">
                 <img
                     src="/ponto-de-exclamacao-em-um-circulo.png"
