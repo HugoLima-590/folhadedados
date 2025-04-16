@@ -11,26 +11,22 @@ def exportar_fd_chave_escotilha(file_path):
     df_tags = pd.read_excel(caminho_tags)
 
     mapeamento = {
-        "D6": "Nº Instrumento"
+        "D6": "Tag do Instrumento"
     }
 
     data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
 
     for _, row in df_tags.iterrows():
         new_sheet = wb_template.copy_worksheet(sheet_folhas)  
-        nome_aba = str(row["Nº Instrumento"])  
+        nome_aba = str(row["Tag do Instrumento"])  
         new_sheet.title = nome_aba
 
         for cell, coluna in mapeamento.items():
             if coluna in row and pd.notna(row[coluna]):
                 new_sheet[cell] = str(row[coluna])
 
-        # #notas = str(row.get("Nota", "")).split("Nota")
-        # for i, nota in enumerate(notas):
-        #     new_sheet[f"A{43 + i}"] = nota.strip()
-
     # Pegando apenas a parte inicial da tag (as letras antes de números)
-    tag = str(row["Nº Instrumento"])
+    tag = str(row["Tag do Instrumento"])
     tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
 
     # Criando o nome do arquivo no formato desejado
