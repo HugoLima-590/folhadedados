@@ -26,7 +26,7 @@ export default function Botao({ file, tagInstrumento }) {
       setProgress(0);
       setStatusMessage("Enviando arquivo...");
 
-      const response = await axios.post("http://127.0.0.1:5000/", formData, {
+      const response = await axios.post("http://192.168.0.104:5000/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (event) => {
           if (event.lengthComputable) {
@@ -56,7 +56,7 @@ export default function Botao({ file, tagInstrumento }) {
       setStatusMessage("Baixando resultado...");
 
       const downloadResponse = await axios.get(
-        `http://127.0.0.1:5000/download/${filename}`,
+        `http://192.168.0.104:5000/download/${filename}`,
         {
           responseType: "blob",
         }
