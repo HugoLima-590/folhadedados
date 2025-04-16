@@ -20,7 +20,14 @@ def exportar_fd_valvulas(caminho_saida):
             "N34": "Temperatura oper. max", "N36": "Densidade", "A43": "Nota",
         }
 
-        data_atual = datetime.today().strftime("%d-%m-%Y")  # Pega a data de hoje no formato desejado
+        # Campos que devem usar um valor alternativo se estiverem vazios
+        valores_padrao = {
+            "Vazão max": "Vazão",
+            "Vazão min": "Vazão",
+            "Temperatura oper. max": "Temperatura Oper.",
+        }
+
+        data_atual = datetime.today().strftime("%d-%m-%Y")
 
         for _, row in df_tags.iterrows():
             new_sheet = wb_template.copy_worksheet(sheet_folhas)
@@ -28,28 +35,29 @@ def exportar_fd_valvulas(caminho_saida):
             new_sheet.title = nome_aba
 
             for cell, coluna in mapeamento.items():
-                if coluna in row and pd.notna(row[coluna]):
-                    new_sheet[cell] = str(row[coluna])
+                valor = row.get(coluna)
 
+                # Se estiver vazio e tiver valor padrão definido
+                if pd.isna(valor) and coluna in valores_padrao:
+                    valor = row.get(valores_padrao[coluna])
+
+                if pd.notna(valor):
+                    new_sheet[cell] = str(valor)
+
+            # Notas em várias linhas
             notas = str(row.get("Nota", "")).split("Nota")
             for i, nota in enumerate(notas):
                 new_sheet[f"A{43 + i}"] = nota.strip()
 
-        # Pegando apenas a parte inicial da tag (as letras antes de números)
         tag = str(row["Tag do Instrumento"])
-        tag_abreviada = "".join([char for char in tag if char.isalpha()])  # Mantém apenas letras
-
-        # Criando o nome do arquivo no formato desejado
+        tag_abreviada = "".join([char for char in tag if char.isalpha()])
         output_filename = f"tag_{tag_abreviada}_fd_preenchido_{data_atual}.xlsm".lower()
-
-        # Diretório para salvar o arquivo (caminho da pasta onde os arquivos podem ser baixados)
         output_path = os.path.join("server/excel", output_filename)
 
         wb_template.save(output_path)
-        
-        # Retorna o caminho relativo para download
+
         return output_filename
 
     except Exception as e:
         print(f"Erro ao exportar FD: {e}")
-        raise  # Levanta o erro novamente para garantir que ele seja capturado pelo handler externo
+        raise
