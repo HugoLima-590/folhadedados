@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 from datetime import datetime
 
 def exportar_fd_transmissor_pressao(file_path):
-    caminho_template = r"server/excel/templates/Transmissor de Nível.xlsx"
+    caminho_template = r"server/excel/templates/Transmissores de Pressão.xlsx"
     caminho_tags = r"server/excel/tags_filtradas.xlsx"
 
     wb_template = load_workbook(caminho_template, keep_vba=True)
