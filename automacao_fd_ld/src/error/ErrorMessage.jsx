@@ -1,11 +1,9 @@
-import React from "react";
-
-export default function ErrorMessage({ message }) {
-    if (!message) return null; // Não exibe nada se não houver erro
+export default function ErrorMessage({ message, code }) {
+    if (!message) return null;
 
     return (
-        <p className="text-red-500 mt-2 border border-red-500 p-1 rounded-md">
-            ❌ {message}
-        </p>
+        <div className="text-red-600 mt-2 border border-red-500 p-2 rounded-md bg-red-50 shadow-sm">
+            <strong>❌ Erro {code ? `[${code}]` : ""}:</strong> {message}
+        </div>
     );
 }

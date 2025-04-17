@@ -26,15 +26,19 @@ export default function Botao({ file, tagInstrumento }) {
       setProgress(0);
       setStatusMessage("Enviando arquivo...");
 
-      const response = await axios.post("http://192.168.0.104:5000/", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (event) => {
-          if (event.lengthComputable) {
-            const percent = Math.round((event.loaded * 50) / event.total); // Até 50%
-            setProgress(percent);
-          }
-        },
-      });
+      const response = await axios.post(
+        "http://192.168.0.104:5000/",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (event) => {
+            if (event.lengthComputable) {
+              const percent = Math.round((event.loaded * 50) / event.total); // Até 50%
+              setProgress(percent);
+            }
+          },
+        }
+      );
 
       setStatusMessage("Processando documento...");
       let simulatedProgress = 51;
@@ -96,7 +100,10 @@ export default function Botao({ file, tagInstrumento }) {
       let errorMessage = "Erro desconhecido";
 
       if (err.response?.data?.error) {
-        errorMessage = err.response.data.error;
+        const serverError = err.response.data;
+        errorMessage = `${serverError.error} (${
+          serverError.code || "sem código"
+        })`;
       } else if (err.message.includes("Network Error")) {
         errorMessage = "Servidor não disponível, contate a equipe de TI.";
       } else {
