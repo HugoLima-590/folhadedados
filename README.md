@@ -4,8 +4,8 @@
 ### Um case técnico para resolver automações de preenchimento de documentos de engenharia, onde as listas de itens precisavam passar para uma folha de dados convertendo e filtrando para cada tipo de item.
 
 ## 📃 Documentação
-<a href="https://doc.clickup.com/9011561075/d/h/8cj30kk-1251/3ba633f83591d22" target="_blank" rel="noopener noreferrer">
-📄 Sistema de Gerenciamento de Projetos
+<a href="https://doc.clickup.com/9011561075/d/h/8cj30kk-1211/66973d8914121a3" target="_blank" rel="noopener noreferrer">
+📄 Gerador de Folha de Dados
 </a>
 
 
