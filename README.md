@@ -1,8 +1,10 @@
 # Lista de Itens para Folha de dados
 
-## Projeto fullstack com **Backend em Python (Flask)** e **Frontend em React (Vite)**, preparado para execução local ou via **Docker**.
-Um case técnico para resolver automações de preenchimento de documentos de engenharia, onde as listas de itens precisavam passar para uma folha de dados convertendo e filtrando para cada tipo de item.
----
+### Projeto fullstack com **Backend em Python (Flask)** e **Frontend em React (Vite)**, preparado para execução local ou via **Docker**.
+### Um case técnico para resolver automações de preenchimento de documentos de engenharia, onde as listas de itens precisavam passar para uma folha de dados convertendo e filtrando para cada tipo de item.
+
+## 📃 Documentação
+[Sistema de Gerenciamento de Projetos](https://doc.clickup.com/9011561075/d/h/8cj30kk-1251/3ba633f83591d22)
 
 ## 📋 Pré-requisitos
 
